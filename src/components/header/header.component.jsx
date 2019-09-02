@@ -1,48 +1,47 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { auth } from '../../firebase/firebase.util'
 import { connect } from 'react-redux'
-import {createStructuredSelector} from 'reselect'
+import { createStructuredSelector } from 'reselect'
 
 import CartIcon from '../cart-icon/cart-icon.component'
 import CartDropdown from '../cart-dropdown/cart-dropdown.component'
-import {selectCurrentUser} from '../../redux/user/user.selectors'
-import {selectCartHidden} from '../../redux/cart/cart.selectors'
+import { selectCurrentUser } from '../../redux/user/user.selectors'
+import { selectCartHidden } from '../../redux/cart/cart.selectors'
 
 import { ReactComponent as Logo } from '../../assets/crown.svg'
-import './header.styles.scss'
+import { OptionLinkContainer, OptionsDivContainer, LogoContainer, HeaderContainer } from './header.styles'
 
 const Header = ({ currentUser, hidden }) => {
     return (
-        <div className='header'>
-            <Link className='logo-container' to='/'>
+        <HeaderContainer>
+            <LogoContainer to='/'>
                 <Logo className='logo' />
-            </Link>
-            <div className='options'>
-                <Link className='option' to='/shop'>
+            </LogoContainer>
+            <OptionsDivContainer>
+                <OptionLinkContainer to='/shop'>
                     SHOP
-                </Link>
-                <Link className='option' to='/contact'>
+                </OptionLinkContainer>
+                <OptionLinkContainer to='/contact'>
                     CONTACT
-                </Link>
+                </OptionLinkContainer>
                 {
                     currentUser ?
-                        <div className='option' onClick={() => auth.signOut()}>
+                        <OptionLinkContainer as='div' onClick={() => auth.signOut()}>
                             SIGN OUT
-                        </div>
+                        </OptionLinkContainer>
                         :
-                        <Link className='option' to='/signin'>
+                        <OptionLinkContainer to='/signin'>
                             SIGN IN
-                        </Link>
+                        </OptionLinkContainer>
                 }
                 <CartIcon />
-            </div>
+            </OptionsDivContainer>
             {
                 hidden ?
                     null :
                     <CartDropdown />
             }
-        </div>
+        </HeaderContainer>
     )
 }
 
